@@ -60,7 +60,7 @@ st.sidebar.markdown(
 )
 
 # Main App UI
-st.title('🎾 Tennis Player Tracking App')
+st.title('Tennis Tracking App')
 st.write("Upload a tennis video to detect and track players in real-time.")
 
 # File uploader for video input
