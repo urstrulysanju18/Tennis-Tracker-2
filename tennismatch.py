@@ -21,7 +21,7 @@ model_path = 'best.pt'  # Replace with your actual .pt file path
 # raise FileNotFoundError(f"Model path {model_path} does not exist.")
 
 # Check if 'hubconf.py' exists in the repo
-hubconf_path = os.path.join('.', 'hubconf.py')
+#hubconf_path = os.path.join('.', 'hubconf.py')
 #if not os.path.exists(hubconf_path):
  #   raise FileNotFoundError(f"hubconf.py not found in {repo_path}. Make sure your repository is structured correctly.")
 
@@ -31,7 +31,7 @@ hubconf_path = os.path.join('.', 'hubconf.py')
 
 # Attempt to load the custom YOLOv5 model
 try:
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path=model_path, source='local')
+    model = torch.hub.load('.', 'custom', path=model_path, source='local')
     st.success("Model loaded successfully!")
 except Exception as e:
     st.error(f"Error loading model: {e}")
