@@ -7,38 +7,17 @@ import pathlib
 import os
 import time
 
-# Ensure compatibility with Windows paths if needed (you can remove this if running on Linux)
-#pathlib.PosixPath = pathlib.WindowsPath
-
-# Define local paths for the model and repository (update for your environment)
-#repo_path = 'C://Users//lahya//OneDrive//Desktop//hello world app'  # Update to your repo path
 model_path = 'best.pt'  # Replace with your actual .pt file path
 
-# Debugging: Check if paths exist
-#if not os.path.exists(repo_path):
-  #  raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
-#if not os.path.exists(model_path):
-# raise FileNotFoundError(f"Model path {model_path} does not exist.")
-
-# Check if 'hubconf.py' exists in the repo
-#hubconf_path = os.path.join('.', 'hubconf.py')
-#if not os.path.exists(hubconf_path):
- #   raise FileNotFoundError(f"hubconf.py not found in {repo_path}. Make sure your repository is structured correctly.")
-
-# Add repo_path to sys.path to make sure Python can find your repository's hubconf.py
-#import sys
-#sys.path.append(repo_path)
-
-# Attempt to load the custom YOLOv5 model
 try:
     model = torch.hub.load('.', 'custom', path=model_path, source='local')
-    st.success("Model loaded successfully!")
+    # st.success("Model loaded successfully!")
 except Exception as e:
     st.error(f"Error loading model: {e}")
-    raise e  # Reraise the exception so we can catch it in the logs
+    raise e
 
 # Streamlit Sidebar for fancy, engaging user instructions
-st.sidebar.title("🚀 How to Use the Tennis Tracking App")
+st.sidebar.title("Menu")
 
 st.sidebar.markdown(
     """
