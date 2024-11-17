@@ -7,28 +7,28 @@ import pathlib
 import os
 import time
 
-# Fix path compatibility for Windows
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+model_path = 'best.pt'  # Replace with your actual .pt file path
 
-# Load YOLOv5 model
-model_path = 'best.pt'  # Replace with the path to your trained model
 try:
     model = torch.hub.load('.', 'custom', path=model_path, source='local')
-    st.success("Model loaded successfully!")
+    # st.success("Model loaded successfully!")
 except Exception as e:
     st.error(f"Error loading model: {e}")
     raise e
 
-# Streamlit page configuration
 st.set_page_config(page_title="Tennis Game Tracking", layout="wide")
 
-# Title of the application
 st.title("Tennis Game Tracking")
 
-# Sidebar for user interaction
+# Streamlit Sidebar for fancy, engaging user instructions
 st.sidebar.title("Menu")
-uploaded_video = st.sidebar.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
+
+# # Main App UI
+# st.title('🎾 Tennis Tracking App')
+# st.write("Upload a tennis video to detect and track players in real-time.")
+
+# # File uploader for video input
+uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
 
 if uploaded_video is not None:
     # Save the uploaded video to a temporary file
@@ -36,7 +36,7 @@ if uploaded_video is not None:
         temp_video.write(uploaded_video.read())
         temp_video_path = temp_video.name
 
-    # Open the video capture
+    # Open video capture
     cap = cv2.VideoCapture(temp_video_path)
     stframe = st.empty()
 
@@ -63,25 +63,32 @@ if uploaded_video is not None:
         if not ret:
             break
 
-        # Run YOLOv5 model inference on the frame
-        results = model(frame)
-        processed_frame = np.squeeze(results.render())  # Draw detection boxes on the frame
+        # Run detection model (mixed precision if CUDA is available)
+        if torch.cuda.is_available():
+            with torch.amp.autocast(device_type='cuda'):
+                results = model(frame)
+        else:
+            results = model(frame)
 
-        # Write the processed frame to the output video file
-        out.write(processed_frame)
+        frame = np.squeeze(results.render())  # Draw detection boxes on the frame
+
+        # Write frame to output video file
+        out.write(frame)
 
         # Convert BGR to RGB for display
-        frame_rgb = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
-        stframe.image(frame_rgb, channels='RGB', use_container_width=True)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        # Update the progress bar
+        # Display the frame in Streamlit
+        stframe.image(frame, channels='RGB', use_container_width=True)
+
+        # Update progress bar
         frame_count += 1
         progress_bar.progress(frame_count / total_frames)
 
-        # Ensure consistent frame rate for display
+        # Ensure consistent frame rate in display
         time.sleep(1 / fps)
 
-    # Release resources
+    # Release video resources
     cap.release()
     out.release()
 
@@ -100,5 +107,3 @@ if uploaded_video is not None:
     # Clean up temporary files
     os.remove(temp_video_path)
     os.remove(output_video_path)
-else:
-    st.sidebar.info("Upload a video file to get started.")
