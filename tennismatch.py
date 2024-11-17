@@ -12,7 +12,7 @@ temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
 # Load YOLOv5 model
-model_path = 'best.pt'
+model_path = 'best.pt'  # Replace with the path to your trained model
 try:
     model = torch.hub.load('.', 'custom', path=model_path, source='local')
     st.success("Model loaded successfully!")
@@ -26,89 +26,79 @@ st.set_page_config(page_title="Tennis Game Tracking", layout="wide")
 # Title of the application
 st.title("Tennis Game Tracking")
 
-# Initialize session state variables
-if 'uploaded_file' not in st.session_state:
-    st.session_state.uploaded_file = None
-if 'output_path' not in st.session_state:
-    st.session_state.output_path = None
-
-# Sidebar for upload, process, and download buttons
+# Sidebar for user interaction
 st.sidebar.title("Menu")
-upload_button = st.sidebar.button("Upload Video")
-process_button = st.sidebar.button("Process Video")
-download_button = st.sidebar.button("Download Video")
-
-# File uploader in the sidebar
 uploaded_video = st.sidebar.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
 
-# Handle video upload
-if upload_button:
-    if uploaded_video:
-        st.session_state.uploaded_file = uploaded_video
-        st.video(uploaded_video)
-        st.success("Video uploaded successfully!")
-    else:
-        st.sidebar.warning("Please upload a video file.")
+if uploaded_video is not None:
+    # Save the uploaded video to a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
+        temp_video.write(uploaded_video.read())
+        temp_video_path = temp_video.name
 
-# Handle video processing
-if process_button:
-    if st.session_state.uploaded_file:
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
-            temp_video.write(st.session_state.uploaded_file.read())
-            temp_video_path = temp_video.name
-        
-        cap = cv2.VideoCapture(temp_video_path)
-        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        fps = int(cap.get(cv2.CAP_PROP_FPS))
-        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    # Open the video capture
+    cap = cv2.VideoCapture(temp_video_path)
+    stframe = st.empty()
 
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as output_temp:
-            output_video_path = output_temp.name
-        st.session_state.output_path = output_video_path
-        
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
-        
-        st.subheader("Processing Video... Please wait.")
-        progress_bar = st.progress(0)
-        stframe = st.empty()
+    # Set up the output video
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as output_temp:
+        output_video_path = output_temp.name
 
-        frame_count = 0
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    out = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
 
-            # Run YOLOv5 model for frame detection
-            results = model(frame)
-            processed_frame = np.squeeze(results.render())
-            
-            out.write(processed_frame)
+    # Get total frames for progress bar
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    progress_bar = st.progress(0)
+    frame_count = 0
 
-            # Convert BGR to RGB for display
-            frame_rgb = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
-            stframe.image(frame_rgb, channels='RGB', use_container_width=True)
+    st.write("⏳ Processing video... Please wait.")
 
-            frame_count += 1
-            progress_bar.progress(frame_count / total_frames)
+    # Process video frames
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
 
-            # Maintain display frame rate
-            time.sleep(1 / fps)
+        # Run YOLOv5 model inference on the frame
+        results = model(frame)
+        processed_frame = np.squeeze(results.render())  # Draw detection boxes on the frame
 
-        cap.release()
-        out.release()
-        st.success("Video processing complete!")
+        # Write the processed frame to the output video file
+        out.write(processed_frame)
 
-# Handle video download
-if download_button:
-    if st.session_state.output_path and os.path.exists(st.session_state.output_path):
-        with open(st.session_state.output_path, 'rb') as f:
-            st.download_button(
-                label="Download Processed Video",
-                data=f,
-                file_name="processed_video.mp4",
-                mime="video/mp4"
-            )
-    else:
-        st.sidebar.warning("No processed video available. Please process a video first.")
+        # Convert BGR to RGB for display
+        frame_rgb = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
+        stframe.image(frame_rgb, channels='RGB', use_container_width=True)
+
+        # Update the progress bar
+        frame_count += 1
+        progress_bar.progress(frame_count / total_frames)
+
+        # Ensure consistent frame rate for display
+        time.sleep(1 / fps)
+
+    # Release resources
+    cap.release()
+    out.release()
+
+    st.success("🎉 Video processing complete!")
+
+    # Provide download button for the processed video
+    st.write("📥 Download the processed video:")
+    with open(output_video_path, 'rb') as f:
+        st.download_button(
+            label="⬇ Download Processed Video",
+            data=f,
+            file_name="processed_video.mp4",
+            mime="video/mp4"
+        )
+
+    # Clean up temporary files
+    os.remove(temp_video_path)
+    os.remove(output_video_path)
+else:
+    st.sidebar.info("Upload a video file to get started.")
