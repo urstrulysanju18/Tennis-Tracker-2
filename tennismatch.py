@@ -16,7 +16,7 @@ except Exception as e:
     st.error(f"Error loading model: {e}")
     raise e
 
-# st.set_page_config(page_title="Tennis Game Tracking", layout="wide")
+st.set_page_config(page_title="Tennis Game Tracking", layout="wide")
 
 st.title("Tennis Game Tracking")
 
