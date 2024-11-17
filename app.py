@@ -14,14 +14,12 @@ pathlib.PosixPath = pathlib.WindowsPath
 #pathlib.PosixPath = pathlib.WindowsPath
 
 # Define local paths for the model and repository (update for your environment)
-repo_path = 'C://Users//Windows//Desktop//Tennis-Tracking-App-using-yolov5'  # Update to your repo path
+repo_path = 'C://Users//Windows//Desktop//Tennis-Tracking-App-using-yolov5//.git//'  # Update to your repo path
 model_path = 'best.pt'  # Replace with your actual .pt file path
 
 # Debugging: Check if paths exist
 if not os.path.exists(repo_path):
    raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
-if not os.path.exists(model_path):
-    raise FileNotFoundError(f"Model path {model_path} does not exist.")
 
 # Check if 'hubconf.py' exists in the repo
 hubconf_path = os.path.join('.', 'hubconf.py')
