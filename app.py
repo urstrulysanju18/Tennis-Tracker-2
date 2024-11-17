@@ -6,13 +6,14 @@ import numpy as np
 import pathlib
 import os
 import time
+
+
+import pathlib
 temp = pathlib.PosixPath
-# Ensure compatibility with Windows paths if needed (you can remove this if running on Linux)
 pathlib.PosixPath = pathlib.WindowsPath
 
 # Define local paths for the model and repository (update for your environment)
 # repo_path = '.'  # Update to your repo path
-model_path = 'best.pt'  # Replace with your actual .pt file path
 
 # Debugging: Check if paths exist
 # if not os.path.exists(repo_path):
