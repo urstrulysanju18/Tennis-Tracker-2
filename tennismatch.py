@@ -31,7 +31,14 @@ selected_option = st.sidebar.radio("Choose an option:", ["Upload and Preview Vid
 # # File uploader for video input
 uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
 
-if uploaded_video is not None:
+if selected_option == "Upload and Preview Video":
+    if uploaded_video:
+        st.session_state.show_input_video = True
+        st.subheader("Input Video Preview:")
+        st.video(input_file)
+
+# if uploaded_video is not None:
+elif selected_option == "Process Video":
     # Save the uploaded video to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
         temp_video.write(uploaded_video.read())
