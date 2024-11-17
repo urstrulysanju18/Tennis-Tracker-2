@@ -38,7 +38,7 @@ if selected_option == "Upload and Preview Video":
         st.video(uploaded_video)
 
 # if uploaded_video is not None:
-elif selected_option == "Process Video":
+elif selected_option == "Process Video" and uploaded_video is not None:
     # Save the uploaded video to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
         temp_video.write(uploaded_video.read())
@@ -103,6 +103,7 @@ elif selected_option == "Process Video":
     st.success("🎉 Video processing complete!")
 
     # Provide download button for the processed video
+elif selected_option == "Download Processed Video" and uploaded_video is not None:
     st.write("📥 Download the processed video:")
     with open(output_video_path, 'rb') as f:
         st.download_button(
