@@ -6,29 +6,26 @@ import numpy as np
 import pathlib
 import os
 import time
-
-import pathlib
 temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
 # Ensure compatibility with Windows paths if needed (you can remove this if running on Linux)
 #pathlib.PosixPath = pathlib.WindowsPath
 
 # Define local paths for the model and repository (update for your environment)
-repo_path = 'C://Users//Windows//Desktop//Tennis-Tracking-App-using-yolov5//.git//'  # Update to your repo path
+# repo_path = '.'  # Update to your repo path
 model_path = 'best.pt'  # Replace with your actual .pt file path
 
 # Debugging: Check if paths exist
-if not os.path.exists(repo_path):
-   raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
+# if not os.path.exists(repo_path):
+#    raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
 
 # Check if 'hubconf.py' exists in the repo
-hubconf_path = os.path.join('.', 'hubconf.py')
-if not os.path.exists(hubconf_path):
-   raise FileNotFoundError(f"hubconf.py not found in {repo_path}. Make sure your repository is structured correctly.")
+# hubconf_path = os.path.join('.', 'hubconf.py')
+# if not os.path.exists(hubconf_path):
+#    raise FileNotFoundError(f"hubconf.py not found in {repo_path}. Make sure your repository is structured correctly.")
 
 # Add repo_path to sys.path to make sure Python can find your repository's hubconf.py
-import sys
-sys.path.append(repo_path)
+# import sys
+# sys.path.append(repo_path)
 
 # Attempt to load the custom YOLOv5 model
 try:
