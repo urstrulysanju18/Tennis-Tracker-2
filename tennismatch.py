@@ -8,33 +8,6 @@ import os
 import time
 from pathlib import Path
 
-# Custom CSS to style the sidebar radio buttons
-st.markdown(
-    """
-    <style>
-    .sidebar .stRadio > label {
-        font-size: 18px;
-        font-weight: bold;
-        color: #4CAF50;
-    }
-    .sidebar .stRadio div[role='radiogroup'] > label {
-        display: block;
-        margin-bottom: 10px;
-        padding: 10px 20px;
-        border-radius: 10px;
-        background-color: #e7e7e7;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .sidebar .stRadio div[role='radiogroup'] > label:hover {
-        background-color: #4CAF50;
-        color: white;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 model_path = 'best.pt'  # Replace with your actual .pt file path
 
 try:
@@ -52,7 +25,8 @@ st.title("Tennis Game Tracking")
 st.sidebar.title("Menu")
 selected_option = st.sidebar.radio("Choose an option:", ["Upload and Preview Video", "Process Video"])
 
-# File uploader for video input
+
+# # File uploader for video input
 uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
 
 if uploaded_video:
@@ -64,6 +38,7 @@ if selected_option == "Upload and Preview Video":
         st.subheader("Input Video Preview:")
         st.video(uploaded_video)
 
+# if uploaded_video is not None:
 elif selected_option == "Process Video" and uploaded_video is not None:
     # Save the uploaded video to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
@@ -142,3 +117,4 @@ elif selected_option == "Process Video" and uploaded_video is not None:
     # Clean up temporary files
     os.remove(temp_video_path)
     os.remove(output_video_path)
+
