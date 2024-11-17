@@ -7,15 +7,15 @@ import pathlib
 import os
 import time
 
-import pathlib
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+# import pathlib
+# temp = pathlib.PosixPath
+# pathlib.PosixPath = pathlib.WindowsPath
 # Ensure compatibility with Windows paths if needed (you can remove this if running on Linux)
 #pathlib.PosixPath = pathlib.WindowsPath
 
 # Define local paths for the model and repository (update for your environment)
 #repo_path = 'C://Users//lahya//OneDrive//Desktop//hello world app'  # Update to your repo path
-model_path = 'best.pt'  # Replace with your actual .pt file path
+# model_path = 'best.pt'  # Replace with your actual .pt file path
 
 # Debugging: Check if paths exist
 #if not os.path.exists(repo_path):
@@ -34,7 +34,7 @@ model_path = 'best.pt'  # Replace with your actual .pt file path
 
 # Attempt to load the custom YOLOv5 model
 try:
-    model = torch.hub.load('.', 'custom', path=model_path, source='local')
+    model = torch.hub.load('.', 'custom', path='best.pt', source='local')
     st.success("Model loaded successfully!")
 except Exception as e:
     st.error(f"Error loading model: {e}")
