@@ -8,17 +8,15 @@ import os
 import time
 
 # Ensure compatibility with Windows paths if needed (you can remove this if running on Linux)
-pathlib.PosixPath = pathlib.WindowsPath
+#pathlib.PosixPath = pathlib.WindowsPath
 
 # Define local paths for the model and repository (update for your environment)
-# repo_path = 'C:\Users\Windows\Desktop\Tennis-Tracking-App-using-yolov5'  # Update to your repo path
-repo_path = r'C:\Users\Windows\Desktop\Tennis-Tracking-App-using-yolov5'
+#repo_path = 'C://Users//lahya//OneDrive//Desktop//hello world app'  # Update to your repo path
 model_path = 'best.pt'  # Replace with your actual .pt file path
-print(f"Checking if path exists: {repo_path}")
 
 # Debugging: Check if paths exist
-# if not os.path.exists(repo_path):
-#    raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
+#if not os.path.exists(repo_path):
+  #  raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
 #if not os.path.exists(model_path):
 # raise FileNotFoundError(f"Model path {model_path} does not exist.")
 
@@ -28,8 +26,8 @@ print(f"Checking if path exists: {repo_path}")
  #   raise FileNotFoundError(f"hubconf.py not found in {repo_path}. Make sure your repository is structured correctly.")
 
 # Add repo_path to sys.path to make sure Python can find your repository's hubconf.py
-import sys
-sys.path.append(repo_path)
+#import sys
+#sys.path.append(repo_path)
 
 # Attempt to load the custom YOLOv5 model
 try:
