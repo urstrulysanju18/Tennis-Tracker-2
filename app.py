@@ -18,8 +18,8 @@ repo_path = 'C:/Users/Windows/Desktop/Tennis-Tracking-App-using-yolov5/.git/'  #
 model_path = 'best.pt'  # Replace with your actual .pt file path
 
 # Debugging: Check if paths exist
-# if not os.path.exists(repo_path):
-#    raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
+if not os.path.exists(repo_path):
+   raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Model path {model_path} does not exist.")
 
