@@ -8,12 +8,13 @@ import os
 import time
 
 # Ensure compatibility with Windows paths if needed (you can remove this if running on Linux)
-#pathlib.PosixPath = pathlib.WindowsPath
+pathlib.PosixPath = pathlib.WindowsPath
 
 # Define local paths for the model and repository (update for your environment)
 # repo_path = 'C:\Users\Windows\Desktop\Tennis-Tracking-App-using-yolov5'  # Update to your repo path
 repo_path = r'C:\Users\Windows\Desktop\Tennis-Tracking-App-using-yolov5'
 model_path = 'best.pt'  # Replace with your actual .pt file path
+print(f"Checking if path exists: {repo_path}")
 
 # Debugging: Check if paths exist
 if not os.path.exists(repo_path):
