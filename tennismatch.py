@@ -31,6 +31,9 @@ selected_option = st.sidebar.radio("Choose an option:", ["Upload and Preview Vid
 # # File uploader for video input
 uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
 
+if uploaded_video:
+    st.session_state.uploaded_video_name = Path(uploaded_video.name).stem
+
 if selected_option == "Upload and Preview Video":
     if uploaded_video:
         st.session_state.show_input_video = True
@@ -108,7 +111,8 @@ elif selected_option == "Process Video" and uploaded_video is not None:
         st.download_button(
             label="⬇ Download Processed Video",
             data=f,
-            file_name="processed_video.mp4",
+            # file_name="processed_video.mp4",
+            file_name=f"{st.session_state.uploaded_video_name}_output.mp4",
             mime="video/mp4"
         )
 
