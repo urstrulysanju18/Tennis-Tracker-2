@@ -28,7 +28,7 @@ st.sidebar.title("Menu")
 # st.write("Upload a tennis video to detect and track players in real-time.")
 
 # # File uploader for video input
-# uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
+uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
 
 if uploaded_video is not None:
     # Save the uploaded video to a temporary file
