@@ -25,6 +25,31 @@ st.title("Tennis Game Tracking")
 st.sidebar.title("Menu")
 selected_option = st.sidebar.radio("Choose an option:", ["Upload and Preview Video", "Process Video"])
 
+st.markdown(
+    """
+    <style>
+    .sidebar .stRadio > label {
+        font-size: 18px;
+        font-weight: bold;
+        color: #4CAF50;
+    }
+    .sidebar .stRadio div[role='radiogroup'] > label {
+        display: block;
+        margin-bottom: 10px;
+        padding: 10px 20px;
+        border-radius: 10px;
+        background-color: #e7e7e7;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .sidebar .stRadio div[role='radiogroup'] > label:hover {
+        background-color: #4CAF50;
+        color: white;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # # File uploader for video input
 uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
