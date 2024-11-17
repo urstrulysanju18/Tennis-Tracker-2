@@ -23,11 +23,8 @@ st.title("Tennis Game Tracking")
 
 # Streamlit Sidebar for fancy, engaging user instructions
 st.sidebar.title("Menu")
-selected_option = st.sidebar.radio("Choose an option:", ["Upload and Preview Video", "Process Video", "Download Processed Video"])
+selected_option = st.sidebar.radio("Choose an option:", ["Upload and Preview Video", "Process Video"])
 
-# # Main App UI
-# st.title('🎾 Tennis Tracking App')
-# st.write("Upload a tennis video to detect and track players in real-time.")
 
 # # File uploader for video input
 uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
@@ -107,10 +104,10 @@ elif selected_option == "Process Video" and uploaded_video is not None:
     st.success("Video processing complete! Click 'Download' button to start download...")
 
     # Provide download button for the processed video
-    st.write("📥 Download the processed video:")
+    # st.write("📥 Download the processed video:")
     with open(output_video_path, 'rb') as f:
         st.download_button(
-            label="⬇ Download Processed Video",
+            label="Download Processed Video",
             data=f,
             # file_name="processed_video.mp4",
             file_name=f"{st.session_state.uploaded_video_name}_output.mp4",
