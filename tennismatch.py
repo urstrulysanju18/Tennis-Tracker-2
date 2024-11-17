@@ -63,7 +63,7 @@ elif selected_option == "Process Video" and uploaded_video is not None:
     progress_bar = st.progress(0)
     frame_count = 0
 
-    st.write("⏳ Processing video... Please wait.")
+    st.write("Video Under Processing...")
 
     # Process video frames
     while cap.isOpened():
@@ -100,10 +100,9 @@ elif selected_option == "Process Video" and uploaded_video is not None:
     cap.release()
     out.release()
 
-    st.success("🎉 Video processing complete!")
+    st.success("Video processing complete! Click 'Download' button to start download...")
 
     # Provide download button for the processed video
-elif selected_option == "Download Processed Video" and uploaded_video is not None:
     st.write("📥 Download the processed video:")
     with open(output_video_path, 'rb') as f:
         st.download_button(
