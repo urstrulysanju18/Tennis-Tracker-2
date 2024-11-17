@@ -64,7 +64,8 @@ elif selected_option == "Process Video" and uploaded_video is not None:
     progress_bar = st.progress(0)
     frame_count = 0
 
-    st.write("Video Under Processing...")
+    processing_message = st.empty()
+    processing_message.write("Video Under Processing...")
 
     # Process video frames
     while cap.isOpened():
@@ -100,6 +101,8 @@ elif selected_option == "Process Video" and uploaded_video is not None:
     # Release video resources
     cap.release()
     out.release()
+    
+    processing_message.empty()
 
     st.success("Video processing complete! Click 'Download' button to start download...")
 
