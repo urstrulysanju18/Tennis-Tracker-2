@@ -35,7 +35,7 @@ if selected_option == "Upload and Preview Video":
     if uploaded_video:
         st.session_state.show_input_video = True
         st.subheader("Input Video Preview:")
-        st.video(input_file)
+        st.video(uploaded_video)
 
 # if uploaded_video is not None:
 elif selected_option == "Process Video":
