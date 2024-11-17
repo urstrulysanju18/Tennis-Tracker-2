@@ -22,6 +22,7 @@ st.title("Tennis Game Tracking")
 
 # Streamlit Sidebar for fancy, engaging user instructions
 st.sidebar.title("Menu")
+selected_option = st.sidebar.radio("Choose an option:", ["Upload and Preview Video", "Process Video", "Download Processed Video"])
 
 # # Main App UI
 # st.title('🎾 Tennis Tracking App')
@@ -107,3 +108,4 @@ if uploaded_video is not None:
     # Clean up temporary files
     os.remove(temp_video_path)
     os.remove(output_video_path)
+
