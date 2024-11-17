@@ -8,7 +8,7 @@ import os
 import time
 temp = pathlib.PosixPath
 # Ensure compatibility with Windows paths if needed (you can remove this if running on Linux)
-#pathlib.PosixPath = pathlib.WindowsPath
+pathlib.PosixPath = pathlib.WindowsPath
 
 # Define local paths for the model and repository (update for your environment)
 # repo_path = '.'  # Update to your repo path
