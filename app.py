@@ -17,8 +17,8 @@ model_path = 'best.pt'  # Replace with your actual .pt file path
 print(f"Checking if path exists: {repo_path}")
 
 # Debugging: Check if paths exist
-if not os.path.exists(repo_path):
-   raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
+# if not os.path.exists(repo_path):
+#    raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
 #if not os.path.exists(model_path):
 # raise FileNotFoundError(f"Model path {model_path} does not exist.")
 
